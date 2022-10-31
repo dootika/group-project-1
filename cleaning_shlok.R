@@ -38,3 +38,27 @@ dat$Final_Genres <- final_genres
 head(dat,1)
 
 ### CLEANING OF SOURCE ###
+source <- dat$Source
+unique(source)
+Final_Source <- character(length = 5000)
+for(i in 1:5000){
+  if(source[i] == "4-koma manga" || source[i] == "Manga" || source[i] == "Web manga"){
+    Final_Source[i] = "MANGA"
+  }
+  if(source[i] == "Visual novel" || source[i] == "Light novel" || source[i] == "Novel" || source[i] == "Web novel" ||source[i] == "Book" ){
+    Final_Source[i] = "NOVEL"
+  }
+  if(source[i] == "Game" || source[i] == "Card game"){
+    Final_Source[i] = "GAME"
+  }
+  if(source[i] == "Original"){
+    Final_Source[i] = "ORIGINAL"
+  }
+  if(source[i] == "Other" || source[i] == "Picture book"|| source[i] == "Mixed media"|| source[i] == "Unknown"|| source[i] == "Music"){
+    Final_Source[i] = "OTHERS"
+  }
+  
+}
+table(Final_Source)
+table(source)
+dat$Final_Source <- Final_Source
