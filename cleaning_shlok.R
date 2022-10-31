@@ -12,7 +12,7 @@ for(i in 1:5000){
 unlisted_genres <- unlist(split_genres)
 single_unlisted_genres <- substring(unlisted_genres, 1, nchar(unlisted_genres)/2)
 unique(split_genres)
-
+single_unlisted_genres
 ##single_genres <- substring(split_genres, 1, nchar(split_genres)/2)
 ##head(single_genres,5)
 
@@ -34,4 +34,7 @@ for(i in 2:5000){
 head(final_genres)
 final_genres[[4999]]
 final_genres[[5000]]
+dat$Final_Genres <- final_genres
+head(dat,1)
 
+### CLEANING OF SOURCE ###
