@@ -6,6 +6,8 @@ g + geom_bar(aes(fill=Type), width = 0.5) +
   theme(axis.text.x = element_text(angle=65, vjust=0.6)) + 
   labs(title="Histogram on Categorial Variable of Anime Data ", 
        subtitle="Source across Type ") 
+
+
 ####Graph of members vs Source 
 load("data1.Rdata")
  library(ggplot2)
