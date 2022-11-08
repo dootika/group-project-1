@@ -27,3 +27,34 @@ df. <- as.data.frame(dat)
 par(las = 1) # all axis labels horizontal
 boxplot(df., main = "boxplot(*, horizontal = TRUE)", horizontal = TRUE)
 
+
+######
+plot(dat$Year,dat$score)
+ggplot(dat, aes(dat$Year,dat$score)) +
+  geom_boxplot()
+View(table(dat$duration))
+d <- density(dat$score)
+plot(d)
+hist(dat$duration,dat$popularity)
+View(table(dat$Name_length))
+View(table(dat$Rating))
+?barplot()
+barplot(dat$Year, space = 2.6)
+View(table(dat$Year,dat$Image_links))
+hist(dat$Year)
+lines(dat$Year)
+install.packages("treemap")
+library(treemap)
+
+treemap(dat, #Your data frame object
+        index=c("Type","Source","SCORE"),  #A list of your categorical variables
+        vSize = "score",  #This is your quantitative variable
+        type = "index", #Type sets the organization and color scheme of your treemap
+        palette = "Reds",  #Select your color palette from the RColorBrewer presets or make your own.
+        title="anime analysis", #Customize your title
+        fontsize.title = 14 #Change the font size of the title
+)
+
+
+treemap(dat,index = c("Type"),vSize ="score",palette = "Reds",  #Select your color palette from the RColorBrewer presets or make your own.
+        title="anime analysis")
