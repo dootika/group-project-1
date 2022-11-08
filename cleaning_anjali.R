@@ -1,16 +1,15 @@
 library(rvest)
 library(dplyr)
-library("stringr")
+library(stringr)
 load("Anime_ranking.Rdata")
 View(data)
 dat <- data
 
 # Unique entries in each column
-for(i in 1:20)
+for(i in 1:21)
 {
-  print(paste(colnames(dat)[[i]],length(unique(dat[[i]])),sum(is.nan(dat[[i]]))))
+  print(paste(colnames(dat)[[i]],length(unique(dat[[i]])),sum(is.na(dat[[i]]))))
 }
-
 
 
 # Extracting numeric variables
@@ -161,6 +160,62 @@ for(i in 1:5000)
   name_len[i] <- str_length(dat$Name[i])
 }
 dat$Name_length <- name_len
+
+
+# SCORE column building
+load("data1.RData")
+
+ind9 <- (dat$score<10)  & (dat$score>9)
+ind8 <- (dat$score<9)  & (dat$score>8)
+ind7 <- (dat$score<8)  & (dat$score>7)
+ind6 <- (dat$score<7)  & (dat$score>6)
+
+vec <- c()
+for(i in 1:5000)
+{
+  vec[ind9] <- "9+"
+  vec[ind8] <- "8+"
+  vec[ind7] <- "7+"
+  vec[ind6] <- "6+" 
+}
+dat$SCORE <- vec
+
+# Demographic cleaning
+a <- dat$Demographic
+dat$demographic <- substr(a,1,str_length(dat$Demographic)/2)
+dat <- dat[,!grepl("Demographic",names(dat))]
+
+# Favorites numeric column conversion
+dat$Favorites <- as.numeric(dat$Favorites)
+
+# Year a catagory
+dat$Year <- as.numeric(dat$Year)
+min_y <- min(dat$Year, na.rm = TRUE)
+max_y <- max(dat$Year, na.rm = TRUE)
+se <- seq(min_y, max_y, 10)
+
+ind1 <- (dat$Year<se[2])  & (dat$Year >= se[1])
+ind2 <- (dat$Year<se[3])  & (dat$Year >= se[2])
+ind3 <- (dat$Year<se[4])  & (dat$Year >= se[3])
+ind4 <- (dat$Year<se[5])  & (dat$Year >= se[4])
+ind5 <- (dat$Year<se[6])  & (dat$Year >= se[5])
+ind6 <- (dat$Year >= se[6])
+
+vec1 <- c()
+for(i in 1:5000)
+{
+  vec1[ind1] <- "1963 - 1973"
+  vec1[ind2] <- "1974 - 1983"
+  vec1[ind3] <- "1984 - 1993"
+  vec1[ind4] <- "1994 - 2003" 
+  vec1[ind5] <- "2004 - 2013"
+  vec1[ind6] <- "2014 - 2022"
+  
+  
+}
+vec1
+dat$YEAR <- vec1
+
 
 
 
