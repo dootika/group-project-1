@@ -216,6 +216,9 @@ for(i in 1:5000)
 vec1
 dat$YEAR <- vec1
 
+# Members to numeric
+dat$Members <- as.numeric(dat$Members)
+
 
 
 
