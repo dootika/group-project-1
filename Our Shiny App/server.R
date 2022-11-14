@@ -16,34 +16,315 @@ function(input, output, session){
   
   # Summarize all the anime here
   output$typeHist <- renderPlot({
-    numeric_var <- c()
-    for(i in 1:dim(dat)[2])
-    {
-      if(typeof(dat[,i]) == "double" | typeof(dat[,i]) == "integer")
-      {
-        numeric_var <- append(numeric_var,colnames(dat)[i])
-      }
+    heat_m((numeric_var[numeric_var != "Rank"])[1:8],"pearson")
+  })
+  output$genreHist <- renderPlot({
+    # function for margins
+    background_image <- function(raster.img){
+      annotation_raster(raster.img,
+                        xmin = -Inf, xmax = Inf,
+                        ymin = -Inf, ymax = Inf)
     }
-    numeric_var
-    data <- dat[,numeric_var]
-    data1 <- na.omit(data)
-    corr_mat <- round(cor(data1),2)
-    melted_corr_mat <- melt(corr_mat)
-    heat_map_numeric <- ggplot(data = melted_corr_mat, aes(x=Var1, y=Var2,
-                                                           fill=value)) +
-      geom_tile(color = "black",
-                lwd = 1.2,
-                linetype = 1)+
-      scale_fill_gradient2(low = "#075AFF",
-                           mid = "#FFFFCC",
-                           high = "#FF0000") +
-      coord_fixed()+ xlab(" ") + ylab(" ")+
-      geom_text(aes(Var2, Var1, label = value),
-                color = "black", size = 4)
-    heat_map_numeric
+    img <- jpeg::readJPEG("yearp.jpeg")
+    
+    plot_d <- three_var_na(dat$YEAR, dat$Rating, dat$SCORE)
+    rating_year <- ggplot(plot_d, aes(x = v1, fill = v2)) + background_image(img)+
+      geom_bar(position="dodge") + 
+      labs(x = "YEAR", y = "COUNT") + 
+      theme_stata() + scale_color_stata() + 
+      ggtitle("RATING - YEAR")
+    rating_year <- rating_year + guides(fill=guide_legend(title="RATING"))
+    rating_year
+    
+  })
+  output$sourceHist <- renderPlot({
+    # function for margins
+    background_image <- function(raster.img){
+      annotation_raster(raster.img,
+                        xmin = -Inf, xmax = Inf,
+                        ymin = -Inf, ymax = Inf)
+    }
+    img <- jpeg::readJPEG("yearp.jpeg")
+    
+    plot_d <- three_var_na(dat$YEAR, dat$score, dat$SCORE)
+    score_year <- ggplot(plot_d, aes(x = v1, y = v2, fill = v3)) + 
+      background_image(img) +
+      geom_boxplot() + labs(x = "Year", y = "SCORE") +
+      theme_stata() + scale_color_stata() + 
+      ggtitle("SCORE - YEAR")
+    score_year <- score_year +  guides(fill=guide_legend(title="SCORE"))
+    score_year
+  })
+  
+  output$ratingHist <- renderPlot({
+    img <- jpeg::readJPEG("yearp.jpeg")
+    
+    plot_d1 <- two_var_na(dat$YEAR, (dat$popularity))
+    popularity_year <- ggplot(plot_d1, aes(x = v1, y = v2)) + 
+      background_image(img) +
+      geom_boxplot() + labs(x = "YEAR", y = "POPULARITY RANKS") +
+      theme_stata() + scale_color_stata() + 
+      ggtitle("POPULARITY - YEAR")
+    popularity_year <- popularity_year +  guides(fill=guide_legend(title="SCORE"))
+    popularity_year
   })
   
   
+  output$demographic1 <- renderPlot({
+    tree <- function(vec,inside)
+    {
+      if(inside == "SCORE")
+      {
+        plt <- treemap(dat, #Your data frame object
+                       index=c(vec,inside),  #A list of your categorical variables
+                       vSize = "score",  #This is your quantitative variable
+                       type = "index", #Type sets the organization and color scheme of your treemap
+                       palette = "Set3",  #Select your color palette from the RColorBrewer presets or make your own.
+                       title=paste("Treemap of",vec,"with respect to SCORE"), #Customize your title
+                       fontsize.title = 15 #Change the font size of the title
+        )
+      }
+      else if(inside == "YEAR")
+      {
+        plt <- treemap(dat, #Your data frame object
+                       index=c(vec,inside),  #A list of your categorical variables
+                       vSize = "Year",  #This is your quantitative variable
+                       type = "index", #Type sets the organization and color scheme of your treemap
+                       palette = "Set3",  #Select your color palette from the RColorBrewer presets or make your own.
+                       title=paste("Treemap of",vec,"with respect to YEAR"), #Customize your title
+                       fontsize.title = 15 #Change the font size of the title
+        )
+      }
+      
+      return(plt)
+    }
+    if(input$demographicselect == "Year"){
+      tempdemo <- c("YEAR")
+    }
+    if(input$demographicselect == "Score"){
+      tempdemo <- c("SCORE")
+    }
+    
+    tree("demographic",tempdemo)
+  })
+  output$demographic2 <- renderPlot({
+    pie_chart_dem <- function(scor,col)
+    {
+      data1 <- subset(dat,dat[,col] %in% scor)
+      perc <- round(100*table(data1$demographic)/sum(table(data1$demographic)), 1)
+      plt <-pie(table(data1$demographic), main = paste("Target Audience for",scor,col))
+      return(plt)
+    }
+    colm <- "YEAR"
+    score_sub <- c("2004 - 2013")
+    pie_chart_dem(score_sub,colm)
+  })
+  
+  
+  output$source <- renderPlot({
+    hist_p <- function(x,n)
+    {
+      a <- dat[,x]
+      df <- data.frame(table(a))
+      top20 <- head(df, n)
+      top20$a <- reorder(top20$a, top20$Freq)
+      plott <- ggplot(top20, aes(x = a, y = Freq, fill = a, label = Freq)) +
+        geom_bar(stat="identity", show.legend = FALSE)  +
+        coord_flip() +
+        labs(title = paste("Top",n,"frequently occuring", x), x = paste(x), y = "Count") +
+        geom_label(aes(fill = a),colour = "white", fontface = "bold", show.legend = FALSE)
+      
+      return(plott)
+    }
+    
+    hist_p("Final_Source",8)
+  })
+  output$genre1 <- renderPlot({
+    # please input list
+    vennd <- function(vec)
+    {
+      veci <- vec[1:4]
+      veci <- veci[!(is.na(veci))]
+      x <- select(dat,veci)
+      x <- x %>% mutate_all(as.logical)
+      x <- tibble(x)
+      plt <- ggvenn(x)
+      return(plt)
+    }
+    vec <- c("Mystery", "Romance","Horror","Action","Comedy")
+    vennd(vec)
+  })
+  
+  output$genre2 <- renderPlot({
+    library(ggplot2)
+    library(forcats)
+    pie_chart_genre <- function(scor,col)
+    {
+      data1 <- subset(dat,dat[,col] %in% scor)
+      values <- c(sum(data1$Mystery),sum(data1$Romance), sum(data1$Action), sum(data1$Horror), sum(data1$Comedy), sum(data1$Others))
+      labels <- c("MYSTERY", "ROMANCE", "ACTION", "HORROR", "COMEDY", "OTHERS")
+      summ <- sum(values)
+      
+      df <- data.frame(value = values, group = labels)
+      df2 <- df %>% 
+        mutate(csum = rev(cumsum(rev(value))), 
+               pos = value/2 + lead(csum, 1),
+               pos = if_else(is.na(pos), value/2, pos))
+      plt <- ggplot(df, aes(x = "" , y = value, fill = fct_inorder(group))) +
+        geom_col(width = 1, color = 1) +
+        coord_polar(theta = "y") +
+        scale_fill_brewer(palette = "Pastel1") +
+        geom_label_repel(data = df2,
+                         aes(y = pos, label = paste0(round(value/summ*100,2),"% - " ,group)),
+                         size = 4.5, nudge_x = 1, show.legend = FALSE) +
+        guides(fill = guide_legend(title = "Group")) +
+        theme_void()
+      return(plt)
+    }
+    if(input$genre2select == "Year"){
+      colm <- c("YEAR")
+    }
+    if(input$genre2select == "Score"){
+      colm <- c("SCORE")
+    }
+    if(input$genre2select == "Demographic"){
+      colm <- c("demographic")
+    }
+    
+    # colm <- "demographic"
+    score_sub <- c("Boys(12-18yr)")
+    
+    # colm <- "demographic"
+    # score_sub <- c("Girls(12-18yr)")
+    
+    pie_chart_genre(score_sub,colm)
+  })
+  
+  
+  output$season <- renderPlot({
+    plot_d <- three_var_na(dat$season, dat$score, dat$SCORE)
+    p4 <- ggplot(plot_d, aes(x = v1, y = v2, fill = v3)) +
+      geom_boxplot() + labs(x = "SEASON", y = "SCORE")
+    p4 <- p4 + guides(fill=guide_legend(title="SCORE"))
+    p4
+  })
+  
+  output$type <- renderPlot({
+    tree <- function(vec,inside)
+    {
+      if(inside == "SCORE")
+      {
+        plt <- treemap(dat, #Your data frame object
+                       index=c(vec,inside),  #A list of your categorical variables
+                       vSize = "score",  #This is your quantitative variable
+                       type = "index", #Type sets the organization and color scheme of your treemap
+                       palette = "Set3",  #Select your color palette from the RColorBrewer presets or make your own.
+                       title=paste("Treemap of",vec,"with respect to SCORE"), #Customize your title
+                       fontsize.title = 15 #Change the font size of the title
+        )
+      }
+      else if(inside == "YEAR")
+      {
+        plt <- treemap(dat, #Your data frame object
+                       index=c(vec,inside),  #A list of your categorical variables
+                       vSize = "Year",  #This is your quantitative variable
+                       type = "index", #Type sets the organization and color scheme of your treemap
+                       palette = "Set3",  #Select your color palette from the RColorBrewer presets or make your own.
+                       title=paste("Treemap of",vec,"with respect to YEAR"), #Customize your title
+                       fontsize.title = 15 #Change the font size of the title
+        )
+      }
+      
+      return(plt)
+    }
+    if(input$typeselect == "Year"){
+      temptype <- c("YEAR")
+    }
+    if(input$typeselect == "Score"){
+      temptype <- c("SCORE")
+    }
+    
+    tree("demographic",temptype)
+  })
+  
+  output$broadcast1 <- renderPlot({
+    plot_d <- three_var_na(dat$broadcast, dat$score, dat$SCORE)
+    broadcast_score <- ggplot(plot_d, aes(x = v1, y = v2, fill = v3)) + 
+      geom_boxplot() + labs(x = "Day of Broadcast", y = "SCORE")
+    broadcast_score <- broadcast_score + guides(fill=guide_legend(title="SCORE"))
+    broadcast_score
+  })
+  
+  output$broadcast2 <- renderPlot({
+    word_c <- function(x)
+    {
+      a <- dat[,x]
+      df <- data.frame(table(a))
+      set.seed(42)
+      df <- df %>%
+        mutate(angle = 90 * sample(c(0, 1), n(), replace = TRUE, prob = c(60, 40)))
+      plott <- ggplot(df,aes(label = a, size = Freq,
+                             color = factor(sample.int(10, nrow(df), replace = TRUE)))) +
+        geom_text_wordcloud_area() +
+        scale_size_area(max_size = 10) +
+        theme_minimal()
+      return(plott)
+    }
+    # word_c("Studios")
+    word_c("broadcast")
+  })
+  
+  
+  output$duration <- renderPlot({
+    plot_d <- three_var_na(dat$Episode, dat$duration, dat$SCORE)
+    duration_eps <- ggplot(plot_d, aes(x = v1, y = v2, color = v3)) + 
+      geom_point() + labs(x = "EPISODES", y = "DURATION (in min)")+ geom_smooth(method = "lm",se = FALSE) +
+      xlim(0,250)+ ylim(0,200) + geom_vline(xintercept = dat[which(dat$score == max(dat$score,na.rm = TRUE)),"Episode"],linetype = "dashed", color="red") + 
+      geom_hline(yintercept = dat[which(dat$score == max(dat$score,na.rm = TRUE)),"duration"],linetype = "dashed", color="red") 
+    duration_eps <- duration_eps + guides(fill=guide_legend(title="SCORE"))
+    duration_eps
+  })
+  
+  
+  
+  output$studio1 <- renderPlot({
+    hist_p <- function(x,n)
+    {
+      a <- dat[,x]
+      df <- data.frame(table(a))
+      top20 <- head(df, n)
+      top20$a <- reorder(top20$a, top20$Freq)
+      plott <- ggplot(top20, aes(x = a, y = Freq, fill = a, label = Freq)) +
+        geom_bar(stat="identity", show.legend = FALSE)  +
+        coord_flip() +
+        labs(title = paste("Top",n,"frequently occuring", x), x = paste(x), y = "Count") +
+        geom_label(aes(fill = a),colour = "white", fontface = "bold", show.legend = FALSE)
+
+      return(plott)
+    }
+
+    hist_p("Studios",8)
+  })
+  
+  output$studio2 <- renderPlot({
+    # defining function to plot WORDCLOUD
+    word_c <- function(x)
+    {
+      a <- dat[,x]
+      df <- data.frame(table(a))
+      set.seed(42)
+      df <- df %>%
+        mutate(angle = 90 * sample(c(0, 1), n(), replace = TRUE, prob = c(60, 40)))
+      plott <- ggplot(df,aes(label = a, size = Freq,
+                             color = factor(sample.int(10, nrow(df), replace = TRUE)))) +
+        geom_text_wordcloud_area() +
+        scale_size_area(max_size = 10) +
+        theme_minimal()
+      return(plott)
+    }
+    word_c("Studios")
+
+  })
   
   
   #type plot/table
@@ -52,27 +333,7 @@ function(input, output, session){
   #Source plot/table
   
   #Duration plot/table
-  anime1$mem
-  duration_table <- reactive({
-    anime1 %>% filter(duration > input$durationlider[1] & duration < input$durationlider[2]) %>% 
-      group_by(duration) %>% summarise(count = n(), average_score = mean(score),
-                                       average_raters = mean(Rating),
-                                       average_watching = mean(Members),
-                                       average_favorites = mean(Favorites))
-  })
   
-  output$duration <- renderPlot(
-    
-      duration_table()%>%
-        ggplot() + geom_point(aes_string(x = "duration", y = paste(strsplit(input$selectduration, " ")[[1]],
-                                                                   collapse = "_"))) +
-        ggtitle('Plot of Characteristics of Anime VS. Durations') + theme_bw()+ 
-        theme(axis.text.x = element_text(face = "bold", color = "black", size = 16)) +
-        theme(axis.text.y = element_text(face = "bold", color = "black", size = 16)) +
-        theme(plot.title = element_text(size = 20, face = "bold"))+
-        theme(axis.title = element_text(size = 12, face = "bold"))
-    
-  )
   
   
   
