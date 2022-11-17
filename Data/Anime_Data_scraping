@@ -54,7 +54,7 @@ values <- function(info)
 
 # Allocation
 num <- number_of_movies
-for(i in 3514:num)
+for(i in 1:num)
 {
   html <- read_html(paste("https://myanimelist.net/anime/",code[i],sep =""))
   a <- html %>% html_elements(".spaceit_pad") %>% html_text()
