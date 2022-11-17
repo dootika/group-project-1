@@ -25,7 +25,7 @@ columns <- c("Type","Episodes","Status","Aired",
              "Premiered", "Broadcast", "Producers",
              "Licensors", "Studios", "Source", "Genres",
              "Demographic", "Duration","Rating", "Score",
-             "Ranked", "Popularity", "Members", "Favorites")
+             "Ranked", "Popularity", "Members", "Favorites","Image_links")
 data <- data.frame(matrix(nrow = 0, ncol = length(columns)+1))
 colnames(data) <- c("Name",columns)
 View(data)
@@ -43,7 +43,7 @@ values <- function(info)
     }
     else
     {
-      value[i] <- NaN
+      value[i] <- NA
     }
     
   }
@@ -54,13 +54,18 @@ values <- function(info)
 
 # Allocation
 num <- number_of_movies
-for(i in 1:num)
+for(i in 3514:num)
 {
   html <- read_html(paste("https://myanimelist.net/anime/",code[i],sep =""))
   a <- html %>% html_elements(".spaceit_pad") %>% html_text()
   data[i,2:(length(columns)+1)] <- values(a)
   data[i,1] <- html %>% html_elements(".title-name.h1_bold_none") %>% html_text()
+  b <- html %>% html_elements(".lazyload") %>% html_attr("data-src")
+  data[i,21] <- b[1]
   print(i)
   
 }
+
+
+save(data,file = "Anime_ranking.Rdata")
 
