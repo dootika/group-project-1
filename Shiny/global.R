@@ -127,6 +127,27 @@ heat_m <- function(num,methodd)
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+# _______________________________________________________________________
+# -----------------------------------------------------------------------
+# 3. COMMON PLOT FUNCTION
+# _______________________________________________________________________
+# -----------------------------------------------------------------------
+
+# _______________________________________________________________________
+# 3.1 SCATTER PLOT
+# _______________________________________________________________________
+re <- function(x,y,i)
 {
   plot_d <- three_var_na(x, y, as.factor(dat[,factors[i]]))
   pl <- ggplot(plot_d, aes(x = v1, y = v2, color = v3)) + 
@@ -147,6 +168,32 @@ ply <- function(x,y)
                       ncol = 3, nrow = 3)
   return(figure)
 }
-
-
+library(ggplot2)
+library(forcats)
+pie_chart_genre <- function(scor,col)
+{
+  data1 <- subset(dat,dat[,col] %in% scor)
+  values <- c(sum(data1$Mystery),sum(data1$Romance), sum(data1$Action), sum(data1$Horror), sum(data1$Comedy), sum(data1$Others))
+  labels <- c("MYSTERY", "ROMANCE", "ACTION", "HORROR", "COMEDY", "OTHERS")
+  summ <- sum(values)
+  
+  df <- data.frame(value = values, group = labels)
+  df2 <- df %>% 
+    mutate(csum = rev(cumsum(rev(value))), 
+           pos = value/2 + lead(csum, 1),
+           pos = if_else(is.na(pos), value/2, pos))
+  plt <- ggplot(df, aes(x = "" , y = value, fill = fct_inorder(group))) +
+    geom_col(width = 1, color = 1) +
+    coord_polar(theta = "y") +
+    scale_fill_brewer(palette = "Pastel1") +
+    geom_label_repel(data = df2,
+                     aes(y = pos, label = paste0(round(value/summ*100,2),"% - " ,group)),
+                     size = 4.5, nudge_x = 1, show.legend = FALSE) +
+    guides(fill = guide_legend(title = "Group")) +
+    theme_void()
+  return(plt)
+}
+colm <- "YEAR"
+score_sub <- "2004 - 2013"
+pie_chart_genre(score_sub,colm)
 

@@ -115,9 +115,19 @@ function(input, output, session){
       plt <-pie(table(data1$demographic), main = paste("Target Audience for",scor,col))
       return(plt)
     }
-    colm <- "YEAR"
-    score_sub <- c("2004 - 2013")
-    pie_chart_dem(score_sub,colm)
+    
+    if(input$demoselect == "Year"){
+      tempdemo2 <- c("YEAR")
+      score_sub <- input$yearcatselect
+    }
+    if(input$demoselect == "Score"){
+      tempdemo2 <- c("SCORE")
+      score_sub <- input$scorecatselect
+      
+    }
+    # colm <- "score"
+    # score_sub <- c("2004 - 2013")
+    pie_chart_dem(score_sub,tempdemo2)
   })
   
   
@@ -126,6 +136,7 @@ function(input, output, session){
     {
       a <- dat[,x]
       df <- data.frame(table(a))
+      df <- df[order(df$Freq, decreasing = TRUE), ]
       top20 <- head(df, n)
       top20$a <- reorder(top20$a, top20$Freq)
       plott <- ggplot(top20, aes(x = a, y = Freq, fill = a, label = Freq)) +
@@ -151,7 +162,7 @@ function(input, output, session){
       plt <- ggvenn(x)
       return(plt)
     }
-    vec <- c("Mystery", "Romance","Horror","Action","Comedy")
+    vec <- input$vennselect
     vennd(vec)
   })
   
@@ -182,20 +193,17 @@ function(input, output, session){
       return(plt)
     }
     if(input$genre2select == "Year"){
-      colm <- c("YEAR")
+      colm <- "YEAR"
+      score_sub <- input$yearcatselect2
     }
     if(input$genre2select == "Score"){
       colm <- c("SCORE")
+      score_sub <- input$scorecatselect2
     }
     if(input$genre2select == "Demographic"){
       colm <- c("demographic")
     }
     
-    # colm <- "demographic"
-    score_sub <- c("Boys(12-18yr)")
-    
-    # colm <- "demographic"
-    # score_sub <- c("Girls(12-18yr)")
     
     pie_chart_genre(score_sub,colm)
   })
@@ -244,7 +252,7 @@ function(input, output, session){
       temptype <- c("SCORE")
     }
     
-    tree("demographic",temptype)
+    tree("Type",temptype)
   })
   
   output$broadcast1 <- renderPlot({
@@ -292,6 +300,7 @@ function(input, output, session){
     {
       a <- dat[,x]
       df <- data.frame(table(a))
+      df <- df[order(df$Freq, decreasing = TRUE), ]
       top20 <- head(df, n)
       top20$a <- reorder(top20$a, top20$Freq)
       plott <- ggplot(top20, aes(x = a, y = Freq, fill = a, label = Freq)) +
@@ -299,7 +308,7 @@ function(input, output, session){
         coord_flip() +
         labs(title = paste("Top",n,"frequently occuring", x), x = paste(x), y = "Count") +
         geom_label(aes(fill = a),colour = "white", fontface = "bold", show.legend = FALSE)
-
+      
       return(plott)
     }
 
@@ -368,7 +377,23 @@ function(input, output, session){
   )
   
   # Rankings
-  
+  output$reco <- renderPlot({
+    rec <- function(x)
+    {
+      img <- load.image(x)
+      pl <- plot(img, axes =  FALSE)
+      return(pl)
+    }
+    
+    data <- head(dat,10)
+    par(mfrow = c(2,5))
+    for(i in 1:10)
+    {
+      rec(data$Image_links[i])
+      title(paste(data$Name[i]),"\n",paste("SCORE:",data$score[i]))
+      
+    }
+  })
   
   #data table
   output$table <- DT::renderDataTable({
