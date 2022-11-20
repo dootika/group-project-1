@@ -7,7 +7,7 @@ editor: visual
 
 ## Acknowledgement
 
-We, Group 1, would like to express our special thanks of gratitude to our professor Dr Dootika Vats, who gave us the opportunity to do this great project of Data Science on "*VOYAGE: THE MAKING OF A HIT ANIME*" who also helped us out at various stages and eventually helped us in completing the project with our best efforts and in time.
+We want to express our special thanks of gratitude to our professor Dr Dootika Vats, who gave us this fantastic opportunity to do this great project of Data Science on "VOYAGE: THE MAKING OF A HIT ANIME" and who also helped us out at various stages and eventually helped us in completing the project with our best efforts and in time. We learnt a lot of new things throughout this project's journey, and it was an amazing experience for us as a team to understand and implement things collaboratively. 
 
 ## 1. Introduction
 
