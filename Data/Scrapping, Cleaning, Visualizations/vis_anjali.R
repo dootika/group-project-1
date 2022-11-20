@@ -1,4 +1,10 @@
-# install.packages("ggthemes") # Install 
+#install.packages("ggthemes") # Install 
+#install.packages("ggpubr") # Install 
+#install.packages("ggwordcloud") # Install 
+#install.packages("ggrepel")# Install 
+#install.packages("reshape2") # Install 
+#install.packages("ggvenn") # Install 
+#install.packages("treemap") # Install 
 
 
 library(ggplot2)
@@ -103,13 +109,8 @@ ply <- function(x,y)
 }
 
 # _______________________________________________________________________
-# 3.2 SCATTER PLOT
-# _______________________________________________________________________
-
-
-# _______________________________________________________________________
 # -----------------------------------------------------------------------
-# ROUGH PLOTTING
+# ROUGH PLOTTING --1
 # _______________________________________________________________________
 # -----------------------------------------------------------------------
 
@@ -118,18 +119,6 @@ ply(dat$Year,dat$score)
 ply(dat$YEAR,dat$score)
 ply(dat$Members, dat$Favorites)
 ply(dat$Episode, dat$duration)
-
-
-
-
-
-
-
-
-
-
-
-
 
 # _______________________________________________________________________
 # -----------------------------------------------------------------------
@@ -250,9 +239,9 @@ hist_p <- function(x,n)
 {
   a <- dat[,x]
   df <- data.frame(table(a))
-  # df <- df[order(df$Freq, decreasing = TRUE), ]
-  top20 <- tail(df, n)
-  # top20$a <- reorder(top20$a, top20$Freq)
+  df <- df[order(df$Freq, decreasing = TRUE), ]
+  top20 <- head(df, n)
+  top20$a <- reorder(top20$a, top20$Freq)
   plott <- ggplot(top20, aes(x = a, y = Freq, fill = a, label = Freq)) +
     geom_bar(stat="identity", show.legend = FALSE)  +
     coord_flip() +
@@ -450,12 +439,24 @@ broadcast_score
 
 # _______________________________________________________________________
 # -----------------------------------------------------------------------
-# 
+# SEASON - SCORE RELATION
 # _______________________________________________________________________
 # -----------------------------------------------------------------------
 
+img2 <- jpeg::readJPEG("season.jpeg")
+plot_d <- three_var_na(dat$season, dat$score, dat$SCORE)
+p4 <- ggplot(plot_d, aes(x = v1, y = v2, fill = v3)) + background_image(img2) +
+  geom_boxplot() + labs(x = "SEASON", y = "SCORE")  
+p4 <- p4 + guides(fill=guide_legend(title="SCORE"))
+p4
 
 
+
+# _______________________________________________________________________
+# -----------------------------------------------------------------------
+# ROUGH PLOTTING -- 2
+# _______________________________________________________________________
+# -----------------------------------------------------------------------
 
 # general
 # plot_d <- three_var_na(dat$Year, dat$Favorites, dat$SCORE)
@@ -465,15 +466,6 @@ broadcast_score
 #   geom_hline(yintercept = dat[which(dat$score == max(dat$score,na.rm = TRUE)),"Favorites"],linetype = "dashed", color="red")
 # p2 <- p2 + guides(fill=guide_legend(title="SCORE"))
 # p2
-# 
-# 
-# 
-img2 <- jpeg::readJPEG("season.jpeg")
-plot_d <- three_var_na(dat$season, dat$score, dat$SCORE)
-p4 <- ggplot(plot_d, aes(x = v1, y = v2, fill = v3)) + background_image(img2) +
-  geom_boxplot() + labs(x = "SEASON", y = "SCORE")  
-p4 <- p4 + guides(fill=guide_legend(title="SCORE"))
-p4
 
 
 # p5 <- ggplot(plot_d, aes(x = v1, fill = v3)) + 
@@ -514,43 +506,7 @@ p4
 #   geom_violin() + labs(x = "POPULAITY", y = "YEAR")
 # p10
 # 
-# table(dat$YEAR)
-# table(dat$season)
-# 
-# plot(dat$Year,dat$Name_length)
-# 
-# dat$score
-# max()
-# 
-# ggplot(plot_d, aes(x = v2, y = v1, fill = v3)) + 
-#   geom_boxplot() + labs(x = "duration", y = "score")
-# 
-# colnames(dat)
-# 
-# colnames(data)
-# ggplot(dat, aes(x = Type)) + geom_bar()
-# ggplot(dat, aes(x = Status)) + geom_bar()
-# ggplot(dat, aes(x = Premiered)) + geom_bar()
-# data$score <- as.numeric(substr(dat$Score,1,4))
-# data$score <- as.numeric(dat$score)
-# 
-# data$Popularity <- as.numeric(substr(data$Popularity,2,8))
-# 
-# 
-# plot(data$Favorites, data$score)
-# plot(data$Members, data$score, xlim = c(0,5000000))
-# 
-# plot(dat$popularity,dat$Rank, xlim = c(0,200))
-# plot(dat$popularity,dat$Members, xlim = c(0,2000))
-# plot(dat$Rank, dat$duration, xlim = c(0,5000), ylim = c(0,120))
-# 
-# hist(dat$Rating)
-# 
-# View(data)
-# numeric()
-# as.numeric(data$score)
-# which(data$score == Nan)
-# 
+
 
 
 
