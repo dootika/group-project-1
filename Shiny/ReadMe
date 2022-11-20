@@ -1,0 +1,2 @@
+We have divided the codes of our shiny app into three individual files ui.R, server.R, global.R 
+
