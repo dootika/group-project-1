@@ -5,7 +5,7 @@ format: html
 editor: visual
 ---
 
-## 1. INTRODUCTION
+## 1. Introduction
 
 ### 1.1 About Anime
 
@@ -296,7 +296,7 @@ library(ggrepel)
       return(plott)
     }
      word_c("Studios")
-    # word_c("broadcast")
+    
 
 ```
 
@@ -373,16 +373,76 @@ General Expectations: *Popular Anime Should have high Scores.*
 
 Popularity based Ranks and Score based ranks had Spearman Rank correlation 0.47 (Moderate Positive Correlation)
 
+```{R}
+#| echo: false
+#| warning: false 
+
+heat_m <- function(num,methodd)
+{
+  data <- dat[,num]
+  data1 <- na.omit(data)
+  corr_mat <- round(cor(data1, method = methodd),2)
+  melted_corr_mat <- melt(corr_mat)
+  
+  heat_map_numeric <- ggplot(data = melted_corr_mat, aes(x=Var1, y=Var2,
+                                                         fill=value)) +
+    geom_tile(color = "black",
+              lwd = 1.2,
+              linetype = 1)+
+    scale_fill_gradient2() +
+    coord_fixed()+ xlab(" ") + ylab(" ")+
+    geom_text(aes(Var2, Var1, label = value),
+              color = "black", size = 4) 
+  return(heat_map_numeric)
+  
+}
+
+
+heat_m(c("Rank","popularity"),"spearman")
+```
+
 ### 6.2 Inference 2
 
 *New Animes are popular than Old*
 
 Probable reasons: Lack of data of Animes before 1990 can give rise to bias in data. Moreover, Animation tools are much more advanced now than they were before 90s leading to more interactive visuals.
-
+```{R}
+#| echo: false
+#| warning: false 
+two_var_na <- function(v1, v2)
+{
+  data <- data.frame(v1,v2)
+  data <- data[((is.na(v1)) | (is.na(v2))) == 0,]
+  return(data)
+}
+plot_d1 <- two_var_na(dat$YEAR, (dat$popularity))
+popularity_year <- ggplot(plot_d1, aes(x = v1, y = v2)) + 
+  geom_boxplot() + labs(x = "YEAR", y = "POPULARITY RANKS") +
+  theme_stata() + scale_color_stata() + 
+  ggtitle("POPULARITY - YEAR")
+popularity_year <- popularity_year +  guides(fill=guide_legend(title="SCORE"))
+popularity_year
+```
 ### 6.3 Inference3
 
 OBSERVATION: *xy = c (hyperbolic), kind of curve between Duration and number of episodes. Number of episodes increase when Duration decreases.*
-
+```{R}
+#| echo: false
+#| warning: false 
+three_var_na <- function(v1, v2, v3)
+{
+  data <- data.frame(v1,v2,v3)
+  data <- data[((is.na(v1)) | (is.na(v2)) | (is.na(v3))) == 0,]
+  return(data)
+}
+plot_d <- three_var_na(dat$Episode, dat$duration, dat$SCORE)
+duration_eps <- ggplot(plot_d, aes(x = v1, y = v2, color = v3)) + 
+  geom_point() + labs(x = "EPISODES", y = "DURATION (in min)")+ geom_smooth(method = "lm",se = FALSE) +
+  xlim(0,250)+ ylim(0,200) + geom_vline(xintercept = dat[which(dat$score == max(dat$score,na.rm = TRUE)),"Episode"],linetype = "dashed", color="red") + 
+  geom_hline(yintercept = dat[which(dat$score == max(dat$score,na.rm = TRUE)),"duration"],linetype = "dashed", color="red") 
+duration_eps <- duration_eps + guides(color =guide_legend(title="SCORE"))
+duration_eps
+```
 ### 6.4 Inference 4
 
 Claim: *Anime launched in Summer and Winter season had no 9+ SCORE*
@@ -390,8 +450,38 @@ Claim: *Anime launched in Summer and Winter season had no 9+ SCORE*
 Claim Status: **Inconclusive**
 
 Reason: For the season column in the dataset we have more than 50% NA values, hence we cannot clearly claim this statement.
+```{R}
+#| echo: false
+#| warning: false 
+plot_d <- three_var_na(dat$season, dat$score, dat$SCORE)
+p4 <- ggplot(plot_d, aes(x = v1, y = v2, fill = v3)) +
+  geom_boxplot() + labs(x = "SEASON", y = "SCORE")
+p4 <- p4 + guides(fill=guide_legend(title="SCORE"))
+p4
+```
+### 6.5 Inference 5
 
-## 7. CONCLUSION
+SCORE increased when animes were *targeted* on Boys OF age 12 TO 18 YEARS
+
+![**A series of Pie Charts depicting the increase in proportion of the aforesaid category**](img4.png)
+
+### 6.6 Inference 6
+
+Animes targeted to Females had more *ROMANCE and COMEDY* than for males, 
+whereas for Males *ACTION and MYSTERY* had a good proportion.
+
+![**Pie Charts depicting the inference**](img5.png)
+
+### 6.7 Inference 7
+
+Clearly Fridays, Saturdays and Sundays were the most preferred days for broadcast while Monday was the least preferred!
+```{R}
+#| echo: false
+#| warning: false
+word_c("broadcast")
+```
+
+## 7. Conclusions
 
 Concluding this project we were able to build an app which would help us to make different templates of the preferred combination of different characterstic variables (genre, broadcast day, studios, etc.. ), we used in our analysis.
 
@@ -401,7 +491,7 @@ For particular choice of characterstic, example the target audience we can find 
 
 Also it depends on the external factors such as the money, which is to be invested and specific intention or goal for which the Anime is made. For example, an anime depicting protection of environment, which is meant for a nobel cause and hence we would want it to be highly popular irrespective of score, so that awareness could be spread across a variety audience. Moreover, we have already seen that it is not necessary that high score of an anime means that it is very popular too.
 
-## 8. REFERENCES
+## 8. References
 
 -   Dataset scraped from [MyAnimeList](https://myanimelist.net/topanime.php)
 
