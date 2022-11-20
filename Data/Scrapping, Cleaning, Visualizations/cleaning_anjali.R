@@ -311,7 +311,7 @@ dat$Horror <- identifi(horror)
 dat$Comedy <- identifi(comedy)
 dat$Others <- identifi(others)
 
-sum(dat$Mystery)
+
 
 
 
