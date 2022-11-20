@@ -69,3 +69,5 @@ for(i in 1:num)
 
 save(data,file = "Anime_ranking.Rdata")
 
+
+
