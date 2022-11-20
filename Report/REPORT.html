@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Group 1: Anjali, Mrunal, Shlok &amp; Vijay">
+
+<title>Project Report</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="REPORT_files/libs/clipboard/clipboard.min.js"></script>
+<script src="REPORT_files/libs/quarto-html/quarto.js"></script>
+<script src="REPORT_files/libs/quarto-html/popper.min.js"></script>
+<script src="REPORT_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="REPORT_files/libs/quarto-html/anchor.min.js"></script>
+<link href="REPORT_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="REPORT_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="REPORT_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="REPORT_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="REPORT_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Project Report</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Group 1: Anjali, Mrunal, Shlok &amp; Vijay </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">1. INTRODUCTION</h2>
+<section id="about-anime" class="level3">
+<h3 class="anchored" data-anchor-id="about-anime">1.1 About Anime</h3>
+<p>What is the first thing that comes to your mind when you hear, see the word “ANIME”?</p>
+<p>We probably think what is the difference between <em>ANIME</em> and any other media form is. Anime is a term used as alias for hand-drawn or computer animation. The word is the abbreviated pronunciation of “animation” in Japanese, where this term refers to all animation. Anime is prominent among teenagers from middle school to college. It has a lot of relevance with <em>Manga</em>, <em>Light Novels</em> and <em>Games</em>.</p>
+<p>An anime is characterized by:</p>
+<ul>
+<li>Story telling</li>
+<li>Character building</li>
+<li>Character building</li>
+<li>Presentation of thoughts artistically</li>
+</ul>
+</section>
+<section id="project-motivation-objective" class="level3">
+<h3 class="anchored" data-anchor-id="project-motivation-objective">1.2 Project Motivation &amp; Objective</h3>
+<p>Here is our <em>hypothetical</em> <strong>Problem Statement</strong> for this project:</p>
+<p><em>An Indian billionaire wants to invest his money in Animation Industry and hence decides to hire a data analyst so that he could get him a better idea of the market. We, as data analysts are providing him a new tool and our interpretations from the data, so that he could successfully make his debut with a successful and hit anime.</em></p>
+<p>For this project, we created a shiny app with R to analyze various factors of the anime and how do they affect the <em>Popularity</em> and <em>Rank</em> of specific animes.</p>
+</section>
+<section id="questions-we-imposed" class="level3">
+<h3 class="anchored" data-anchor-id="questions-we-imposed">1.3 Questions We Imposed</h3>
+<p>Here are a few questions laid down by us looking at the dataset:</p>
+<ul>
+<li>Was there any impact of COVID on different aspects of anime (eg. viewership)?</li>
+<li>Does a studio house focus on “quality” or “quantity” in the process of making of anime?</li>
+<li>What has more audience and viewership: “Movies” or “TV shows”?</li>
+<li>Can we identify the Target Audience with maximum viewership?</li>
+<li>Can a show be perfectly timed?
+<ul>
+<li>With respect to premiering:
+<ul>
+<li>on a particular season?</li>
+<li>on a particular month of the year?</li>
+</ul></li>
+<li>With respect to broadcasting episodes:
+<ul>
+<li>During Weekends (Saturdays, Sundays)</li>
+<li>Just before the weekends (Fridays)</li>
+<li>Or during any other weekday</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="about-our-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="about-our-dataset">2. About our Dataset</h2>
+<section id="source-and-method-of-obtaining-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="source-and-method-of-obtaining-dataset">2.1 Source and method of obtaining dataset</h3>
+<p>People rate anime, just like they do for any other TV show, a song or a movie. <strong>MyAnimeList</strong> is one of the preferred rating/ranking website for anime. The dataset is obtained from scraping this <em>MAL</em> website.</p>
+</section>
+<section id="describing-datsaset-variables" class="level3">
+<h3 class="anchored" data-anchor-id="describing-datsaset-variables">2.2 Describing datsaset variables</h3>
+<p>The dataset we obtained was having data for 5000 Anime, available data was &gt;5000 Anime, but after 5000, <code>NaN</code> values were prominent in nearly all the variables. We scraped the data of 21 variables from the website. These variables are classified and described as follows:</p>
+<section id="categorical-variables" class="level4">
+<h4 class="anchored" data-anchor-id="categorical-variables">2.2.1 Categorical Variables</h4>
+<dl>
+<dt>Name</dt>
+<dd>
+<p>Contains the name of the anime.</p>
+</dd>
+<dt>Type</dt>
+<dd>
+<p>Indicates the platform on which the Anime was released. It basically consists of 6 unique entries namely: <em>TV</em>, <em>MUSIC</em>, <em>OVA</em>, <em>ONA</em>, <em>SPECIALS</em>.</p>
+</dd>
+<dt>Status</dt>
+<dd>
+<p>Describes the current <em>status</em> of the Anime, <em>Is It Still Airing?</em> or <em>Has it Finished Airing?</em>, i.e.&nbsp;, it is still being telecasted or not.</p>
+</dd>
+<dt>Aired</dt>
+<dd>
+<p>Describes the date on from which the Anime was broadcasted and the day on which it ended. For the animes are currently airing, the finished date has not been mentioned. (Obviously!)</p>
+</dd>
+<dt>Premiered</dt>
+<dd>
+<p>Tells the season and year of release of the Anime. For example “summer 1990”. Premier had 195 unique value entries</p>
+</dd>
+<dt>Producers</dt>
+<dd>
+<p>This variable describe the name of production houses for a particular anime they were more than 2000 unique entries in this column and no missing values.</p>
+</dd>
+<dt>Licenses</dt>
+<dd>
+<p>According to data taken from forums of my animal list licenses are described as the people who make available and release the project.</p>
+</dd>
+<dt>Studios</dt>
+<dd>
+<p>According to my anime is Forum Studios are described as the ones who actually make the project.</p>
+</dd>
+<dt>Source</dt>
+<dd>
+<p>Tells us about the motivation from which anime was made sources like Manga, Visual Novels, Web Manga, Original are common sources for making an anime.</p>
+</dd>
+<dt>Genre</dt>
+<dd>
+<p>Describes different combination of genre (category of art) which are present in that particular anime. Furthermore each entry in this column shows a combination of 3 to 4 different genre. This column had 621 unique entries with 1143 missing values.</p>
+</dd>
+<dt>Rating</dt>
+<dd>
+<p>Denotes six type of ratings which classify is anime under restricted categories as well as categories in which parental guidance is required. No missing values were present in this column.</p>
+</dd>
+<dt>Demographic</dt>
+<dd>
+<p>(According to <a href="https://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/MangaDemographics">tvtropes</a>) “Shounen, shoujo, josei and seinen are also used to describe demographic groups as well as publishing categories; for example, most hobby manga are aimed at the seinen demographic. Despite this, the publishing categories do not necessarily align perfectly with the actual readership; for example, many shounen magazines have large female and adult readerships.”</p>
+</dd>
+<dt>Image</dt>
+<dd>
+<p>Contains links of the images of the posters of the respective anime.</p>
+</dd>
+</dl>
+</section>
+<section id="numerical-variables" class="level4">
+<h4 class="anchored" data-anchor-id="numerical-variables">2.2.2 Numerical Variables</h4>
+<dl>
+<dt>Members</dt>
+<dd>
+<p>According to <em>MyAnimeList</em> members here means the number of members of the website who have added that specific anime to their watch list. It can be used to imply how popular an anime is. This column had one missing entry.</p>
+</dd>
+<dt>Favorites</dt>
+<dd>
+<p>According to <em>MyAnimeList</em> favorites are the members who added that particular anime to their favorites anime list.</p>
+</dd>
+<dt>Episodes</dt>
+<dd>
+<p>Denotes complete number of episodes in an anime.</p>
+</dd>
+<dt>Duration</dt>
+<dd>
+<p>Denotes duration per episode for a series and time in hours minutes in a movie.</p>
+</dd>
+<dt>Score</dt>
+<dd>
+<p>Denotes score given to a particular anime by my anime list the score is particularly calculated as a weighted mean of certain variables by <em>MyAnimeList.</em></p>
+</dd>
+<dt>Rank</dt>
+<dd>
+<p>Denotes the rank given by <em>MyAnimeList</em> it directly proportional to the scores given by the site.</p>
+</dd>
+<dt>Popularity</dt>
+<dd>
+<p>Denotes the rank given according to popularity of the anime.</p>
+</dd>
+</dl>
+</section>
+</section>
+</section>
+<section id="how-did-we-obtain-our-dataset-scraping-it-is" class="level2">
+<h2 class="anchored" data-anchor-id="how-did-we-obtain-our-dataset-scraping-it-is">3. How did we obtain our dataset? (Scraping it is!)</h2>
+<section id="libraries-we-used-in-this-process" class="level3">
+<h3 class="anchored" data-anchor-id="libraries-we-used-in-this-process">3.1 Libraries we used in this process</h3>
+<ul>
+<li>rvest</li>
+<li>tidyverse</li>
+</ul>
+</section>
+<section id="problems-we-faced-in-this-process" class="level3">
+<h3 class="anchored" data-anchor-id="problems-we-faced-in-this-process">3.2 Problems we faced in this process</h3>
+<p>Pages looked like the following:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption"><strong>List of Top Animes</strong></figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img3.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption"><strong>How individual pages of each anime looked like</strong></figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img2.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption"><strong>We scrapped most of the columns from here</strong></figcaption><p></p>
+</figure>
+</div>
+<p>It showed ranks of Anime and had hyperlinks to get into each page for a particular Anime. Every page corresponding to an anime had “spaceit_pad” class in it, which has some of the important variables, but sequencing was different for each anime, making it tough to extract via list slicing.</p>
+</section>
+<section id="solutions-we-used-to-tackle-the-aforementioned-issues" class="level3">
+<h3 class="anchored" data-anchor-id="solutions-we-used-to-tackle-the-aforementioned-issues">3.3 Solutions we used to tackle the aforementioned issues</h3>
+<p>To get the codes we made a function “codes(input = number_of_anime )” which automated the process of code extraction.</p>
+<p>Then we made an empty dataset with 21 columns (nomenclature mentioned in data description) function “values(input = text element from spaceit_pad class)”. This function took the extracted element of “spaceit” as input, then with grepl function checked that whether the name of column we assigned is present in any of the element of this list. Where it was true it assigned it a value at that particular index and if there was no TRUE value the NA was assigned to the remaining index. The output of this function was for a particular Anime by inputing its “spaceit_pad” and giving a vector of all the information of 21 columns which was later assigned as a row in our data frame</p>
+</section>
+</section>
+<section id="cleaning-the-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="cleaning-the-dataset">4. Cleaning the Dataset</h2>
+<section id="libraries-we-used-in-this-process-1" class="level3">
+<h3 class="anchored" data-anchor-id="libraries-we-used-in-this-process-1">4.1 Libraries we used in this process</h3>
+<ul>
+<li>dplyr</li>
+<li>stringr</li>
+</ul>
+</section>
+<section id="method-problems-and-their-solutions-while-cleaning-data" class="level3">
+<h3 class="anchored" data-anchor-id="method-problems-and-their-solutions-while-cleaning-data">4.2 Method, problems and their solutions while cleaning data</h3>
+<section id="duration-season-broadcast-days-column" class="level4">
+<h4 class="anchored" data-anchor-id="duration-season-broadcast-days-column">4.2.1 Duration, Season Broadcast (days) column</h4>
+<p>In the duration column we had the data likes “1hr. 20min.”, “24min.”, “52min. pr. Eps”, our final output was a column in which all these values were calculated in minutes. Solution: Analyzed patterns which were recurring, then built a function “dur(entry from duration column)” calculated duration in min.</p>
+<p>All the three columns shared common type of problems, in the remaining two it was not possible to directly use substring as index of extraction for each value differed (eg “Sundays at 17:00 JST”, “Unknown”,“Friday at 3:15 JST”), hence for each of them a function was build which had a vector unique entries(in which we want to see the output as, eg new &lt;- c(“Sunday”,“Monday”), this function checked the presence of any element from “new” in the input, if the condition was satisfied then output would be the coinciding vector from “new”.</p>
+</section>
+<section id="genre-column" class="level4">
+<h4 class="anchored" data-anchor-id="genre-column">4.2.2 Genre column</h4>
+<p>Entries were like “ActionAction AdventureAdventure FantasyFantasy”, this was cleaned and transformed into a list first, then different Genre were clubbed into 6 broad catagories, namely Mystery, Romance, Action, Horror, comedy and Others as binary variables.</p>
+</section>
+<section id="categorizing-numeric-into-category" class="level4">
+<h4 class="anchored" data-anchor-id="categorizing-numeric-into-category">4.2.3 Categorizing numeric into category</h4>
+<p>Columns like score, year, demographic, Source (renamed abbreviations, reference in link) were transformed to category variables.</p>
+</section>
+</section>
+</section>
+<section id="visualising-the-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="visualising-the-dataset">5. Visualising the Dataset</h2>
+<section id="libraries-we-used-in-this-process-2" class="level3">
+<h3 class="anchored" data-anchor-id="libraries-we-used-in-this-process-2">5.1 Libraries we used in this process</h3>
+<ul>
+<li>ggplot2</li>
+<li>imager</li>
+<li>rvest</li>
+<li>ggpubr</li>
+<li>ggthemes</li>
+<li>ggwordcloud</li>
+<li>ggrepel</li>
+<li>tidyverse</li>
+<li>reshape2</li>
+<li>ggvenn</li>
+<li>treemap</li>
+</ul>
+</section>
+<section id="generating-plot-with-the-help-of-user-defined-functions" class="level3">
+<h3 class="anchored" data-anchor-id="generating-plot-with-the-help-of-user-defined-functions">5.2 Generating plot with the help of user defined functions</h3>
+<section id="function-three_var_nacol1-col2-col3" class="level4">
+<h4 class="anchored" data-anchor-id="function-three_var_nacol1-col2-col3">5.2.1 Function: three_var_na(col1, col2, col3)</h4>
+<p>This function removed NA values and formed the data set of the three columns so that this dataset could be directly used without errors of NA values while plotting.</p>
+</section>
+<section id="function-re-and-plt" class="level4">
+<h4 class="anchored" data-anchor-id="function-re-and-plt">5.2.2 Function: re() and plt()</h4>
+<p>These functions were used to build 9 plots at a time in which we could fix two variables and then analyze the effect of confounding 9 variables on the two. This helped us to brainstorm some interesting relations and have a motivation for our main plots.</p>
+</section>
+<section id="function-heat_mlist-of-numeric-variables-method" class="level4">
+<h4 class="anchored" data-anchor-id="function-heat_mlist-of-numeric-variables-method">5.2.3 Function: heat_m(list of numeric variables, method)</h4>
+<p>This function was used to plot heatmaps of numeric variables, we can change the variables in the function and graphs would change accouding to inputs, Methods used were Pearson and Spearman rank correlation.</p>
+</section>
+<section id="function-word_cinput-name-of-column" class="level4">
+<h4 class="anchored" data-anchor-id="function-word_cinput-name-of-column">5.2.4 Function: word_c(input = name of column)</h4>
+<p>This function generates word cloud for a given column with all the beautifications and adjustments done, major inputs were “Studios” and “broadcast”</p>
+</section>
+<section id="function-hist_pinput1-name-of-column-input2-number-of-top-entries" class="level4">
+<h4 class="anchored" data-anchor-id="function-hist_pinput1-name-of-column-input2-number-of-top-entries">5.2.5 Function: hist_p(input1 = name of column, input2 = number of top entries)</h4>
+<p>For a particular column of the dataset it generated histograms arranged in decreasing order, we could choose how many number of bars(each bar = unique category of the column) we want.</p>
+</section>
+<section id="function-pie_chart_genreinput1-catagoric-column-score-demographic-input2-unique-entries-in-input-1-for-which-we-want-to-see-the-output" class="level4">
+<h4 class="anchored" data-anchor-id="function-pie_chart_genreinput1-catagoric-column-score-demographic-input2-unique-entries-in-input-1-for-which-we-want-to-see-the-output">5.2.6 Function: pie_chart_genre(input1 = catagoric column: “SCORE”, “demographic”, input2 = unique entries in input 1 for which we want to see the output)</h4>
+<p>This function generated pie chart of genre column grouped according to “SCORE (9+,8+, ..)” or “demographic (like boys(12 to 18yrs))” column, From input2, for a selected input 1 we could add unique. Eg - colm &lt;- “demographic” score_sub &lt;- c(“Girls(12-18yr)”,“Women(18-40yr)”) pie_chart_genre(score_sub,colm)</p>
+</section>
+<section id="function-treeinput1-main-column-input2-column-on-the-basis-of-which-main-column-is-grouped" class="level4">
+<h4 class="anchored" data-anchor-id="function-treeinput1-main-column-input2-column-on-the-basis-of-which-main-column-is-grouped">5.2.7 Function: tree(input1 = Main column ,input2 = column on the basis of which Main column is grouped)</h4>
+<p>This builds tree maps</p>
+</section>
+<section id="function-venndinput-subvectors-of-cmystery-romancecomedyactionhorror" class="level4">
+<h4 class="anchored" data-anchor-id="function-venndinput-subvectors-of-cmystery-romancecomedyactionhorror">5.2.8 Function: vennd(input = subvectors of c(“Mystery”, “Romance”,“Comedy”,“Action”,“Horror”))</h4>
+<p>Generated venn diagram for genre, its input can vary according to the subvector we provided, hence can see the venn diagram (of max 4 var – function was designed accordingly)</p>
+</section>
+<section id="function-recinput-dataset" class="level4">
+<h4 class="anchored" data-anchor-id="function-recinput-dataset">5.2.9 Function: rec(input = dataset)</h4>
+<p>It will display the image of top 10 anime from the dataset.</p>
+</section>
+</section>
+<section id="shiny-app" class="level3">
+<h3 class="anchored" data-anchor-id="shiny-app">5.3 Shiny app</h3>
+<p>The Shiny App made by our group had the following features:</p>
+<ul>
+<li>A Welcome Page tab</li>
+<li>An anime overview tab which contained summary histograms, heatmap wherein variables can be chosen by the user</li>
+<li>Multiple tabs (namely Demographic, Source, Type, etc) which contained visulisations of various parameters and showed their dependencies</li>
+<li>A recommendations tab where the app recommends the top 10 anime to the user</li>
+<li>And finally our data set wherein a user can search around anything (from anime’s name to the studio name to genre, etc)</li>
+</ul>
+</section>
+<section id="generating-visualisations-using-our-shiny-app" class="level3">
+<h3 class="anchored" data-anchor-id="generating-visualisations-using-our-shiny-app">5.4 Generating visualisations using our Shiny App</h3>
+<section id="a-wordcloud-of-all-the-studios" class="level4">
+<h4 class="anchored" data-anchor-id="a-wordcloud-of-all-the-studios">5.4.1 A Wordcloud of all the studios</h4>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="REPORT_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="a-pie-chart-showing-boys12-18-yrs-dominating-the-demographics-in-recent-years" class="level4">
+<h4 class="anchored" data-anchor-id="a-pie-chart-showing-boys12-18-yrs-dominating-the-demographics-in-recent-years">5.4.2 A Pie-Chart showing Boys(12-18 yrs) dominating the demographics in recent years</h4>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="REPORT_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
+</section>
+<section id="a-venn-diagram-showing-the-dominance-of-action-and-comedy-over-other-genres" class="level4">
+<h4 class="anchored" data-anchor-id="a-venn-diagram-showing-the-dominance-of-action-and-comedy-over-other-genres">5.4.3 A Venn Diagram showing the dominance of Action and Comedy over other genres</h4>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="REPORT_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="a-histogram-showing-the-distribution-of-the-sources-of-different-anime" class="level4">
+<h4 class="anchored" data-anchor-id="a-histogram-showing-the-distribution-of-the-sources-of-different-anime">5.4.4 A Histogram showing the distribution of the sources of different anime</h4>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="REPORT_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="intresting-inferences" class="level2">
+<h2 class="anchored" data-anchor-id="intresting-inferences">6. INTRESTING INFERENCES</h2>
+<section id="inference-1" class="level3">
+<h3 class="anchored" data-anchor-id="inference-1">6.1 Inference 1</h3>
+<p>General Expectations: <em>Popular Anime Should have high Scores.</em></p>
+<p><strong>BUT</strong></p>
+<p>Popularity based Ranks and Score based ranks had Spearman Rank correlation 0.47 (Moderate Positive Correlation)</p>
+</section>
+<section id="inference-2" class="level3">
+<h3 class="anchored" data-anchor-id="inference-2">6.2 Inference 2</h3>
+<p><em>New Animes are popular than Old</em></p>
+<p>Probable reasons: Lack of data of Animes before 1990 can give rise to bias in data. Moreover, Animation tools are much more advanced now than they were before 90s leading to more interactive visuals.</p>
+</section>
+<section id="inference3" class="level3">
+<h3 class="anchored" data-anchor-id="inference3">6.3 Inference3</h3>
+<p>OBSERVATION: <em>xy = c (hyperbolic), kind of curve between Duration and number of episodes. Number of episodes increase when Duration decreases.</em></p>
+</section>
+<section id="inference-4" class="level3">
+<h3 class="anchored" data-anchor-id="inference-4">6.4 Inference 4</h3>
+<p>Claim: <em>Anime launched in Summer and Winter season had no 9+ SCORE</em></p>
+<p>Claim Status: <strong>Inconclusive</strong></p>
+<p>Reason: For the season column in the dataset we have more than 50% NA values, hence we cannot clearly claim this statement.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">7. CONCLUSION</h2>
+<p>Concluding this project we were able to build an app which would help us to make different templates of the preferred combination of different characterstic variables (genre, broadcast day, studios, etc.. ), we used in our analysis.</p>
+<p>We can notice that there is no specific combination of charactersitics which guarantees a hit anime but it depends on how the person who is making the Anime wants to make it.</p>
+<p>For particular choice of characterstic, example the target audience we can find different combination of factors which increases its popularity as well as score.</p>
+<p>Also it depends on the external factors such as the money, which is to be invested and specific intention or goal for which the Anime is made. For example, an anime depicting protection of environment, which is meant for a nobel cause and hence we would want it to be highly popular irrespective of score, so that awareness could be spread across a variety audience. Moreover, we have already seen that it is not necessary that high score of an anime means that it is very popular too.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">8. REFERENCES</h2>
+<ul>
+<li><p>Dataset scraped from <a href="https://myanimelist.net/topanime.php">MyAnimeList</a></p></li>
+<li><p>We read and used information regarding Japanese demographics from <a href="https://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/MangaDemographics">tvtropes</a> and <a href="https://reelrundown.com/animation/animanga_genres">reelrundown</a></p></li>
+<li><p><a href="https://www.r-project.org/other-docs.html">R documentation</a> was very useful for finding functions in base R.</p></li>
+</ul>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

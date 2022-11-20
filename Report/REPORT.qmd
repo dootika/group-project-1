@@ -1,7 +1,7 @@
 ---
 title: "Project Report"
 author: "Group 1: Anjali, Mrunal, Shlok & Vijay"
-format: pdf
+format: html
 editor: visual
 ---
 
@@ -253,8 +253,6 @@ The Shiny App made by our group had the following features:
 
 ### 5.4 Generating visualisations using our Shiny App
 
-
-
 #### 5.4.1 A Wordcloud of all the studios
 
 ```{R}
@@ -365,8 +363,6 @@ hist_p("Final_Source",8)
 
 ```
 
-
-
 ## 6. INTRESTING INFERENCES
 
 ### 6.1 Inference 1
@@ -381,8 +377,7 @@ Popularity based Ranks and Score based ranks had Spearman Rank correlation 0.47 
 
 *New Animes are popular than Old*
 
-Probable reasons: Lack of data of Animes before 1990 can give rise to bias in data. 
-Moreover, Animation tools are much more advanced now than they were before 90s leading to more interactive visuals.
+Probable reasons: Lack of data of Animes before 1990 can give rise to bias in data. Moreover, Animation tools are much more advanced now than they were before 90s leading to more interactive visuals.
 
 ### 6.3 Inference3
 
@@ -390,11 +385,11 @@ OBSERVATION: *xy = c (hyperbolic), kind of curve between Duration and number of 
 
 ### 6.4 Inference 4
 
-Claim:   *Anime launched in Summer and Winter season had no 9+ SCORE*
+Claim: *Anime launched in Summer and Winter season had no 9+ SCORE*
 
 Claim Status: **Inconclusive**
 
-Reason: For the season column in the dataset we have more than 50% NA values, hence we cannot clearly claim this statement. 
+Reason: For the season column in the dataset we have more than 50% NA values, hence we cannot clearly claim this statement.
 
 ## 7. CONCLUSION
 
@@ -408,10 +403,8 @@ Also it depends on the external factors such as the money, which is to be invest
 
 ## 8. REFERENCES
 
-* Dataset scraped from  [MyAnimeList](https://myanimelist.net/topanime.php)
+-   Dataset scraped from [MyAnimeList](https://myanimelist.net/topanime.php)
 
-* We read and used information regarding Japanese demographics from  [tvtropes](https://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/MangaDemographics) and             [reelrundown](https://reelrundown.com/animation/animanga_genres)
+-   We read and used information regarding Japanese demographics from [tvtropes](https://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/MangaDemographics) and [reelrundown](https://reelrundown.com/animation/animanga_genres)
 
-* [R documentation](https://www.r-project.org/other-docs.html) was very useful for finding functions in base R.
-
-
+-   [R documentation](https://www.r-project.org/other-docs.html) was very useful for finding functions in base R.
