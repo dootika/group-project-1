@@ -1,3 +1,5 @@
+#install.packages("stringr")
+
 library(rvest)
 library(dplyr)
 library(stringr)
@@ -310,14 +312,6 @@ dat$Action <- identifi(action)
 dat$Horror <- identifi(horror)
 dat$Comedy <- identifi(comedy)
 dat$Others <- identifi(others)
-
-
-
-
-
-
-
-
 
 
 
