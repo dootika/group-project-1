@@ -5,6 +5,10 @@ format: html
 editor: visual
 ---
 
+## Acknowledgement
+
+We, Group 1, would like to express our special thanks of gratitude to our professor Dr Dootika Vats, who gave us the opportunity to do this great project of Data Science on "*VOYAGE: THE MAKING OF A HIT ANIME*" who also helped us out at various stages and eventually helped us in completing the project with our best efforts and in time.
+
 ## 1. Introduction
 
 ### 1.1 About Anime
@@ -406,6 +410,7 @@ heat_m(c("Rank","popularity"),"spearman")
 *New Animes are popular than Old*
 
 Probable reasons: Lack of data of Animes before 1990 can give rise to bias in data. Moreover, Animation tools are much more advanced now than they were before 90s leading to more interactive visuals.
+
 ```{R}
 #| echo: false
 #| warning: false 
@@ -423,9 +428,11 @@ popularity_year <- ggplot(plot_d1, aes(x = v1, y = v2)) +
 popularity_year <- popularity_year +  guides(fill=guide_legend(title="SCORE"))
 popularity_year
 ```
+
 ### 6.3 Inference3
 
 OBSERVATION: *xy = c (hyperbolic), kind of curve between Duration and number of episodes. Number of episodes increase when Duration decreases.*
+
 ```{R}
 #| echo: false
 #| warning: false 
@@ -443,6 +450,7 @@ duration_eps <- ggplot(plot_d, aes(x = v1, y = v2, color = v3)) +
 duration_eps <- duration_eps + guides(color =guide_legend(title="SCORE"))
 duration_eps
 ```
+
 ### 6.4 Inference 4
 
 Claim: *Anime launched in Summer and Winter season had no 9+ SCORE*
@@ -450,6 +458,7 @@ Claim: *Anime launched in Summer and Winter season had no 9+ SCORE*
 Claim Status: **Inconclusive**
 
 Reason: For the season column in the dataset we have more than 50% NA values, hence we cannot clearly claim this statement.
+
 ```{R}
 #| echo: false
 #| warning: false 
@@ -459,6 +468,7 @@ p4 <- ggplot(plot_d, aes(x = v1, y = v2, fill = v3)) +
 p4 <- p4 + guides(fill=guide_legend(title="SCORE"))
 p4
 ```
+
 ### 6.5 Inference 5
 
 SCORE increased when animes were *targeted* on Boys OF age 12 TO 18 YEARS
@@ -467,14 +477,14 @@ SCORE increased when animes were *targeted* on Boys OF age 12 TO 18 YEARS
 
 ### 6.6 Inference 6
 
-Animes targeted to Females had more *ROMANCE and COMEDY* than for males, 
-whereas for Males *ACTION and MYSTERY* had a good proportion.
+Animes targeted to Females had more *ROMANCE and COMEDY* than for males, whereas for Males *ACTION and MYSTERY* had a good proportion.
 
 ![**Pie Charts depicting the inference**](img5.png)
 
 ### 6.7 Inference 7
 
 Clearly Fridays, Saturdays and Sundays were the most preferred days for broadcast while Monday was the least preferred!
+
 ```{R}
 #| echo: false
 #| warning: false
